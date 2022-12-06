@@ -24,8 +24,33 @@ code {
 }
 
 .food {
-  background-color: yellow;
+  background-color: #ffff00;
+  height: 40px;
+  width: 40px;
+  background: url('./images/one.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
+.ten{
+  background-color: #ff0000;
+  height: 40px;
+  width: 40px;
+  background: url('./images/ten.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.five{
+  background-color: #2a4da5;
+  height: 40px;
+  width: 40px;
+  background: url('./images/five.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
 
 .snake {
   background-color: green;
@@ -48,7 +73,16 @@ code {
   background-size: cover;
   border: 2px solid black;
   margin: 5px;
+}
 
+.pause {
+  height: 50px;
+  width: 50px;
+  background: url('./images/pause.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 2px solid black;
+  margin: 5px;
 }
 
 .selected {

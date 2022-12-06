@@ -2,15 +2,27 @@ import { useEffect, useState } from 'react';
 import './App.css';
 
 
-const BOARD_SIZE = 10;
-const CELLS = Array(BOARD_SIZE).fill(Array(BOARD_SIZE).fill(0));
-const MOVES = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'];
-const SPEED = 500;
+// const BOARD_SIZE = 10;
+// const CELLS = Array(BOARD_SIZE).fill(Array(BOARD_SIZE).fill(0));
+// const MOVES = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'];
+// const SPEED = 500;
 
 function App() {
+  const [boardSize, setBoardSize] = useState(10);
+  const CELLS = Array(boardSize).fill(Array(boardSize).fill(0));
+  const FOOD_VALUES = [1, 5, 10];
+  const MOVES = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', ' '];
+
+  const [speed, setSpeed] = useState(600);
   const [snakeDirection, setSnakeDirection] = useState(MOVES[0]);
   const [snake, setSnake] = useState([[1,1]]);
-  const [food, setFood] = useState([0,0])
+  const [food, setFood] = useState([0,0]);
+  const [pause, setPause] = useState(false);
+  const [score, setScore] = useState(0);
+  const [foodValue, setFoodValue] = useState(1);
+
+  
+
 
 const handleKeyDown = (e) => {
   const index = MOVES.indexOf(e.key);
@@ -28,31 +40,35 @@ useEffect(() => {
   return () => clearInterval()
 }, [snake]);
 
-const checkAvailableCell =  (position) => {
+function checkAvailableCell(position){
   switch(true){
-    case position >= BOARD_SIZE:
+    case position >= boardSize:
       return 0
     case position < 0:
-      return BOARD_SIZE - 1
+      return boardSize - 1
     default: 
       return position
   }
 };
 
-const generateFood = () =>{
+function generateFood(){
   let newFood
   do {
     newFood = [
-      Math.floor(Math.random() * BOARD_SIZE),
-      Math.floor(Math.random() * BOARD_SIZE),
+      Math.floor(Math.random() * boardSize),
+      Math.floor(Math.random() * boardSize),
     ]
+    const rand = Math.floor(Math.random() * FOOD_VALUES.length);
+    setFoodValue(FOOD_VALUES[rand]);
+    console.log(foodValue);
+
   } while (snake.some(item => item[0] === newFood[0] && item[1] === newFood[1]))
   setFood(newFood);
 }
 
 
-const gameRunning = () => {
-  const timerId = setTimeout( () => {
+function gameRunning(){
+  const timerId = setTimeout(() => {
     const newSnake = snake
     let move = []
 
@@ -85,17 +101,49 @@ const gameRunning = () => {
 
     if(snakeHead[0] === food[0] && snakeHead[1] === food[1]){
       spliceIndex = 0
-      generateFood()
+      setScore(score + foodValue);
+      if(score >=50 ){
+        setSpeed(500)
+      }
+      if(score >=100 ){
+        setSpeed(400)
+      }
+      if(score >=150 ){
+        setSpeed(300)
+      }
+      if(score >=200 ){
+        setSpeed(200)
+      }
+      if(score >=250 ){
+        setSpeed(100)
+      }
+      generateFood();
     }
 
     setSnake(newSnake.slice(spliceIndex))
 
-  }, SPEED)
+
+  }, speed)
   return timerId
+}
+
+function handleSubmit(e){
+  e.preventDefault()
+  const form = e.currentTarget;
+  const name = form.elements.name.value;
+  const boardSize = form.elements.boardSize.value;
+  console.log(name, boardSize)
+  form.reset()
 }
 
   return (
         <div>
+          <form onSubmit={handleSubmit}>
+          <input name='boardSize' type={"number"} min='10' max='20'/>
+          <input name='name' type={'text'}/>
+          <button type='submit'>submit</button>
+          </form>
+
           {CELLS.map((row, indexRow) => (
             <div key={indexRow} className='row'>
               {row.map((cell, indexCell)=> {
@@ -103,19 +151,22 @@ const gameRunning = () => {
                   elem[0] === indexRow && elem[1] === indexCell
                   ) && 'snake'
                   if(type !== 'snake'){
-                    type = (food[0] === indexRow && food[1] ===indexCell) && 'food'
+                    type = (food[0] === indexRow && food[1] ===indexCell) && 
+                    `${foodValue === 1 ? 'food': foodValue === 5 ? 'five': 'ten'}` 
                   }
                 return(<div key={indexCell} className={`cell ${type}`}/>)
               })}
             </div>
           ))}
-            <div className='cell'/>
+            {/* <div className='cell'/>
             <div className='cell snake'/>
-            <div className='cell food'/>
+            <div className='cell food'/> */}
             <div className={`arrow up ${snakeDirection === 'ArrowUp'? 'selected': ''}`}/>
             <div className={`arrow down ${snakeDirection === 'ArrowDown'? 'selected': ''}`}/>
             <div className={`arrow left ${snakeDirection === 'ArrowLeft'? 'selected': ''}`}/>
             <div className={`arrow right ${snakeDirection === 'ArrowRight'? 'selected': ''}`}/>
+            <div className={`pause ${pause === true ? 'selected': ''}`}/>
+            <div>Your Score: {score}</div>
         </div>
   );
 }
