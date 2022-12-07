@@ -50,6 +50,7 @@ useEffect(() => {
   gameRunning()
   // const interval = gameRunning()
   return () => clearInterval()
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [snake, pause]);
 
 function checkAvailableCell(position){
@@ -73,6 +74,7 @@ function generateFood(){
     const rand = Math.floor(Math.random() * FOOD_VALUES.length);
     setFoodValue(FOOD_VALUES[rand]);
 
+  // eslint-disable-next-line no-loop-func
   } while (snake.some(item => item[0] === newFood[0] && item[1] === newFood[1]))
   setFood(newFood);
 };
@@ -187,7 +189,6 @@ function startNewGame(){
         </>
         }
         {!lose && <div>Game running</div>}
-        {/* {pause && <div>Pause</div>} */}
         </div>
           {CELLS.map((row, indexRow) => (
             <div key={indexRow} className='row'>
@@ -203,9 +204,6 @@ function startNewGame(){
               })}
             </div>
           ))}
-            {/* <div className='cell'/>
-            <div className='cell snake'/>
-            <div className='cell food'/> */}
             <div className={`arrow up ${snakeDirection === 'ArrowUp'? 'selected': ''}`}/>
             <div className={`arrow down ${snakeDirection === 'ArrowDown'? 'selected': ''}`}/>
             <div className={`arrow left ${snakeDirection === 'ArrowLeft'? 'selected': ''}`}/>
