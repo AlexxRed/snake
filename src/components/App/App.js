@@ -2,14 +2,10 @@ import { useEffect, useState } from 'react';
 import './App.css';
 
 
-// const BOARD_SIZE = 10;
-// const CELLS = Array(BOARD_SIZE).fill(Array(BOARD_SIZE).fill(0));
-// const MOVES = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'];
-// const SPEED = 500;
-
 function App() {
-  
+
   const [boardSize, setBoardSize] = useState(10);
+
   const CELLS = Array(boardSize).fill(Array(boardSize).fill(0));
   const FOOD_VALUES = [1, 5, 10];
   const MOVES = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'];
@@ -184,14 +180,14 @@ function startNewGame(){
           <button type='submit'>submit</button>
           </form>
         <div>
-        {/* {pause && <p>pause</p>} */}
         {lose && 
         <>
           <div>game over</div>
           <button onClick={startNewGame}>Start new game</button>
         </>
         }
-        {!lose && <div>game running</div>}
+        {!lose && <div>Game running</div>}
+        {/* {pause && <div>Pause</div>} */}
         </div>
           {CELLS.map((row, indexRow) => (
             <div key={indexRow} className='row'>
@@ -216,7 +212,6 @@ function startNewGame(){
             <div className={`arrow right ${snakeDirection === 'ArrowRight'? 'selected': ''}`}/>
             <div className={`pause ${pause === true ? 'selected': ''}`} onClick={handlePause}/>
             <div>Your Score: {score}</div>
-
         </div>
   );
 }
