@@ -8,10 +8,11 @@ import './App.css';
 // const SPEED = 500;
 
 function App() {
+  
   const [boardSize, setBoardSize] = useState(10);
   const CELLS = Array(boardSize).fill(Array(boardSize).fill(0));
   const FOOD_VALUES = [1, 5, 10];
-  const MOVES = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', ' '];
+  const MOVES = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'];
 
   const [speed, setSpeed] = useState(600);
   const [snakeDirection, setSnakeDirection] = useState(MOVES[0]);
@@ -20,6 +21,7 @@ function App() {
   const [pause, setPause] = useState(false);
   const [score, setScore] = useState(0);
   const [foodValue, setFoodValue] = useState(1);
+  const [lose, setLose] = useState(false);
 
   
 
@@ -29,16 +31,30 @@ const handleKeyDown = (e) => {
   if(index > -1){
     setSnakeDirection(MOVES[index])
   }
+  if(e.key === ' '){
+    // handlePause()
+  }
 };
+
+// useEffect(() => {
+//   if(pause===true){
+//     setSpeed(10000000)
+//   }if(pause===false){
+//     setSpeed(600)
+//   }
+// }, [pause])
+
 
 useEffect(() => {
   document.addEventListener('keydown', handleKeyDown)
+  document.addEventListener('keypress', (e)=> {if(e.key=== ' '){handlePause()}})
 });
 
 useEffect(() => {
-  const interval = gameRunning()
+  gameRunning()
+  // const interval = gameRunning()
   return () => clearInterval()
-}, [snake]);
+}, [snake, pause]);
 
 function checkAvailableCell(position){
   switch(true){
@@ -60,14 +76,14 @@ function generateFood(){
     ]
     const rand = Math.floor(Math.random() * FOOD_VALUES.length);
     setFoodValue(FOOD_VALUES[rand]);
-    console.log(foodValue);
 
   } while (snake.some(item => item[0] === newFood[0] && item[1] === newFood[1]))
   setFood(newFood);
-}
+};
 
 
 function gameRunning(){
+
   const timerId = setTimeout(() => {
     const newSnake = snake
     let move = []
@@ -85,10 +101,10 @@ function gameRunning(){
       case MOVES[3]:
         move = [0,1]
         break;
-
+        
         default:
         break;
-    }
+    };
 
     const snakeHead =  [
       checkAvailableCell(newSnake[newSnake.length - 1][0]+move[0]),
@@ -98,6 +114,14 @@ function gameRunning(){
     newSnake.push(snakeHead)
 
     let spliceIndex = 1
+    const snakeCopy = newSnake.slice(0)
+    const head = snakeCopy.shift()
+
+    if(snakeCopy.some(item => item[0] === head[0]&& item[1]===head[1])){
+      setLose(true)
+      setSpeed(10000000)
+      console.log('gameover')
+    }
 
     if(snakeHead[0] === food[0] && snakeHead[1] === food[1]){
       spliceIndex = 0
@@ -122,28 +146,53 @@ function gameRunning(){
 
     setSnake(newSnake.slice(spliceIndex))
 
-
   }, speed)
   return timerId
-}
+};
 
 function handleSubmit(e){
   e.preventDefault()
   const form = e.currentTarget;
   const name = form.elements.name.value;
-  const boardSize = form.elements.boardSize.value;
+  const boardSize = Number(form.elements.boardSize.value);
+  setBoardSize(boardSize)
+  
   console.log(name, boardSize)
   form.reset()
-}
+};
+
+function handlePause(){
+  if(pause===true){
+    setSpeed(10000000)
+  }if(pause===false)
+    setSpeed(600)
+  setPause(!pause)
+};
+
+function startNewGame(){
+  setSnake([[1,1]])
+  setLose(false)
+  setSpeed(600)
+  setFoodValue(1)
+};
 
   return (
         <div>
           <form onSubmit={handleSubmit}>
-          <input name='boardSize' type={"number"} min='10' max='20'/>
+          <input name='boardSize' type={"number"} min='10' max='15'/>
           <input name='name' type={'text'}/>
           <button type='submit'>submit</button>
           </form>
-
+        <div>
+        {/* {pause && <p>pause</p>} */}
+        {lose && 
+        <>
+          <div>game over</div>
+          <button onClick={startNewGame}>Start new game</button>
+        </>
+        }
+        {!lose && <div>game running</div>}
+        </div>
           {CELLS.map((row, indexRow) => (
             <div key={indexRow} className='row'>
               {row.map((cell, indexCell)=> {
@@ -165,8 +214,9 @@ function handleSubmit(e){
             <div className={`arrow down ${snakeDirection === 'ArrowDown'? 'selected': ''}`}/>
             <div className={`arrow left ${snakeDirection === 'ArrowLeft'? 'selected': ''}`}/>
             <div className={`arrow right ${snakeDirection === 'ArrowRight'? 'selected': ''}`}/>
-            <div className={`pause ${pause === true ? 'selected': ''}`}/>
+            <div className={`pause ${pause === true ? 'selected': ''}`} onClick={handlePause}/>
             <div>Your Score: {score}</div>
+
         </div>
   );
 }
