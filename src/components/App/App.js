@@ -262,8 +262,8 @@ function handleRight(){
               <input className='input-player' name='name' type={'text'} min='3' max='30' required/>
             </label>
             <label id='boardSize'>
-              <h3>Choose field size</h3>  
-              <input className='input-player' name='boardSize' type={"number"} min='10' max='15' required/>
+              <h3>Choose size</h3>  
+              <input className='input-player' name='boardSize' type={"number"} min='8' max='15' required/>
             </label>
             
             <button className='button-submit' type='submit'>Play</button>
