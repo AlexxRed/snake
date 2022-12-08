@@ -30,7 +30,9 @@ function App() {
     try {
       async function getPlayers (){
         const {data} = await axios.get("/");
-        setTablePlayers(data)
+        const top = data.sort(
+          (first, second) => second.totalScore - first.totalScore)
+        setTablePlayers(top)
       }
       getPlayers()
     } catch (error) {
@@ -49,6 +51,7 @@ const handleKeyDown = (e) => {
     // handlePause()
   }
 };
+
 
 useEffect(() => {
   document.addEventListener('keydown', handleKeyDown)
@@ -182,6 +185,7 @@ function startNewGame(){
   setLose(false)
   setSpeed(600)
   setFoodValue(1)
+  setPause(false)
 };
 
 async function sendPlayerResult (name, score){
@@ -197,19 +201,17 @@ async function sendPlayerResult (name, score){
 
   return (
         <div className='container'>
-          <form onSubmit={handleSubmit}>
-          <input name='boardSize' type={"number"} min='10' max='15'/>
-          <input name='name' type={'text'}/>
-          <button type='submit'>submit</button>
-          </form>
-        <div>
+
+          <div className='left-side'>
+        <div className='top-container'>
         {lose && 
         <>
-          <div>game over</div>
-          <button onClick={startNewGame}>Start new game</button>
+          <h3><span className='score-counter'>Game over</span></h3>
+          <button className='button-submit' onClick={startNewGame}>Start new game</button>
         </>
         }
-        {!lose && <div>Game running</div>}
+        {!lose && <h3 className='game-running'>Game is running</h3>}
+        <h3>Your Score:<span className='score-counter'>{score}</span></h3>
         </div>
           {CELLS.map((row, indexRow) => (
             <div key={indexRow} className='row'>
@@ -234,8 +236,29 @@ async function sendPlayerResult (name, score){
             </div>
             <div className={`pause ${pause === true ? 'selected': ''}`} onClick={handlePause}/>
           </div>
-            <div>Your Score: {score}</div>
-            <div>{tablePlayers && tablePlayers.map(item => <div key={item._id}>{`${item.name}: ${item.totalScore}`}</div>)}</div>
+          </div>
+          <div className='right-side'>
+            <form className='player-form' onSubmit={handleSubmit}>
+            <label className='label-player' id='name'>
+              <h3>Your name</h3>
+              <input className='input-player' name='name' type={'text'} min='3' max='30' required/>
+            </label>
+            <label id='boardSize'>
+              <h3>Choose field size</h3>  
+              <input className='input-player' name='boardSize' type={"number"} min='10' max='15' required/>
+            </label>
+            
+            <button className='button-submit' type='submit'>Play</button>
+            </form>
+            <h3 className='list-players'>Top Players</h3>
+              <div className='top-player-container'>
+                {tablePlayers && tablePlayers.map(
+                  item => <div className='top-player-item' key={item._id}>
+                    <div className='player-string'>{item.name}</div>
+                    <div className='player-string'>{item.totalScore}</div>
+                    </div>)}
+              </div>
+          </div>
         </div>
   );
 }
