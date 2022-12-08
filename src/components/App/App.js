@@ -11,7 +11,7 @@ function App() {
 
   const CELLS = Array(boardSize).fill(Array(boardSize).fill(0));
   const FOOD_VALUES = [1, 5, 10];
-  const MOVES = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'];
+  const MOVES = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', ' '];
 
   const [speed, setSpeed] = useState(600);
   const [snakeDirection, setSnakeDirection] = useState(MOVES[0]);
@@ -111,10 +111,15 @@ function gameRunning(){
       case MOVES[3]:
         move = [0,1]
         break;
-        
+      // case MOVES[4]:
+      //   move = [0,0]
+      //   break;
+
         default:
         break;
     };
+
+
 
     const snakeHead =  [
       checkAvailableCell(newSnake[newSnake.length - 1][0]+move[0]),
@@ -199,43 +204,56 @@ async function sendPlayerResult (name, score){
   
 }
 
+function handleUp(){
+  setSnakeDirection(MOVES[1])
+}
+function handleDown(){
+  setSnakeDirection(MOVES[0])
+}
+function handleLeft(){
+  setSnakeDirection(MOVES[2])
+}
+function handleRight(){
+  setSnakeDirection(MOVES[3])
+}
+
   return (
         <div className='container'>
 
-          <div className='left-side'>
-        <div className='top-container'>
-        {lose && 
-        <>
-          <h3><span className='score-counter'>Game over</span></h3>
-          <button className='button-submit' onClick={startNewGame}>Start new game</button>
-        </>
-        }
-        {!lose && <h3 className='game-running'>Game is running</h3>}
-        <h3>Your Score:<span className='score-counter'>{score}</span></h3>
-        </div>
-          {CELLS.map((row, indexRow) => (
-            <div key={indexRow} className='row'>
-              {row.map((cell, indexCell)=> {
-                let type = snake.some(elem =>
-                  elem[0] === indexRow && elem[1] === indexCell
-                  ) && 'snake'
-                  if(type !== 'snake'){
-                    type = (food[0] === indexRow && food[1] ===indexCell) && 
-                    `${foodValue === 1 ? 'food': foodValue === 5 ? 'five': 'ten'}` 
-                  }
-                return(<div key={indexCell} className={`cell ${type}`}/>)
-              })}
-            </div>
-          ))}
-          <div className='controller-container'>
-            <div className={`arrow up ${snakeDirection === 'ArrowUp'? 'selected': ''}`}/>
-            <div className='controller-container-bottom'>
-              <div className={`arrow left ${snakeDirection === 'ArrowLeft'? 'selected': ''}`}/>
-              <div className={`arrow down ${snakeDirection === 'ArrowDown'? 'selected': ''}`}/>
-              <div className={`arrow right ${snakeDirection === 'ArrowRight'? 'selected': ''}`}/>
-            </div>
-            <div className={`pause ${pause === true ? 'selected': ''}`} onClick={handlePause}/>
+        <div className='left-side'>
+          <div className='top-container'>
+          {lose && 
+          <>
+            <h3><span className='score-counter'>Game over</span></h3>
+            <button className='button-submit' onClick={startNewGame}>Start new game</button>
+          </>
+          }
+          {!lose && <h3 className='game-running'>Game is running</h3>}
+          <h3>Your Score:<span className='score-counter'>{score}</span></h3>
           </div>
+            {CELLS.map((row, indexRow) => (
+              <div key={indexRow} className='row'>
+                {row.map((cell, indexCell)=> {
+                  let type = snake.some(elem =>
+                    elem[0] === indexRow && elem[1] === indexCell
+                    ) && 'snake'
+                    if(type !== 'snake'){
+                      type = (food[0] === indexRow && food[1] ===indexCell) && 
+                      `${foodValue === 1 ? 'food': foodValue === 5 ? 'five': 'ten'}` 
+                    }
+                  return(<div key={indexCell} className={`cell ${type}`}/>)
+                })}
+              </div>
+            ))}
+            <div className='controller-container'>
+              <div className={`arrow up ${snakeDirection === 'ArrowUp'? 'selected': ''}`} onClick={handleUp}/>
+              <div className='controller-container-bottom'>
+                <div className={`arrow left ${snakeDirection === 'ArrowLeft'? 'selected': ''}`} onClick={handleLeft}/>
+                <div className={`arrow down ${snakeDirection === 'ArrowDown'? 'selected': ''}`} onClick={handleDown}/>
+                <div className={`arrow right ${snakeDirection === 'ArrowRight'? 'selected': ''}`} onClick={handleRight}/>
+              </div>
+              <div className={`pause ${pause === true ? 'selected': ''}`} onClick={handlePause}/>
+            </div>
           </div>
           <div className='right-side'>
             <form className='player-form' onSubmit={handleSubmit}>
@@ -245,7 +263,7 @@ async function sendPlayerResult (name, score){
             </label>
             <label id='boardSize'>
               <h3>Choose field size</h3>  
-              <input className='input-player' name='boardSize' type={"number"} min='10' max='15' required/>
+              <input className='input-player' name='boardSize' type={"number"} min='10' max='25' required/>
             </label>
             
             <button className='button-submit' type='submit'>Play</button>

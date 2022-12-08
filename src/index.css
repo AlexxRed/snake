@@ -72,6 +72,10 @@ code {
   margin: 10px auto
 }
 
+.left-side{
+  max-height: 100vh;
+}
+
 .right-side{
   margin-top: 75px;
   margin-left: 40px;
