@@ -57,10 +57,17 @@ code {
 }
 
 .container {
-  display: flex;
+  display: block;
+  margin: 10px auto
 }
 .controller-container {
-  margin: 100px;
+  margin: 10px auto;
+  display: block;
+  flex-direction: row;
+}
+
+.controller-container-bottom{
+  margin: 10px auto;
   display: flex;
   flex-direction: row;
 }
@@ -82,7 +89,7 @@ code {
   background-repeat: no-repeat;
   background-size: cover;
   border: 2px solid black;
-  margin: 5px;
+  margin: 0px 70px;
 }
 
 .selected {
@@ -94,6 +101,7 @@ code {
 }
 
 .up {
+  margin: 0px 70px;
   transform: rotate(270deg);
 }
 

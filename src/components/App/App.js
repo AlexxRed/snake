@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     try {
       async function getPlayers (){
-        const {data}= await axios.get("/");
+        const {data} = await axios.get("/");
         setTablePlayers(data)
       }
       getPlayers()
@@ -49,15 +49,6 @@ const handleKeyDown = (e) => {
     // handlePause()
   }
 };
-
-// useEffect(() => {
-//   if(pause===true){
-//     setSpeed(10000000)
-//   }if(pause===false){
-//     setSpeed(600)
-//   }
-// }, [pause])
-
 
 useEffect(() => {
   document.addEventListener('keydown', handleKeyDown)
@@ -205,7 +196,7 @@ async function sendPlayerResult (name, score){
 }
 
   return (
-        <div>
+        <div className='container'>
           <form onSubmit={handleSubmit}>
           <input name='boardSize' type={"number"} min='10' max='15'/>
           <input name='name' type={'text'}/>
@@ -234,11 +225,15 @@ async function sendPlayerResult (name, score){
               })}
             </div>
           ))}
+          <div className='controller-container'>
             <div className={`arrow up ${snakeDirection === 'ArrowUp'? 'selected': ''}`}/>
-            <div className={`arrow down ${snakeDirection === 'ArrowDown'? 'selected': ''}`}/>
-            <div className={`arrow left ${snakeDirection === 'ArrowLeft'? 'selected': ''}`}/>
-            <div className={`arrow right ${snakeDirection === 'ArrowRight'? 'selected': ''}`}/>
+            <div className='controller-container-bottom'>
+              <div className={`arrow left ${snakeDirection === 'ArrowLeft'? 'selected': ''}`}/>
+              <div className={`arrow down ${snakeDirection === 'ArrowDown'? 'selected': ''}`}/>
+              <div className={`arrow right ${snakeDirection === 'ArrowRight'? 'selected': ''}`}/>
+            </div>
             <div className={`pause ${pause === true ? 'selected': ''}`} onClick={handlePause}/>
+          </div>
             <div>Your Score: {score}</div>
             <div>{tablePlayers && tablePlayers.map(item => <div key={item._id}>{`${item.name}: ${item.totalScore}`}</div>)}</div>
         </div>
