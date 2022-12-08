@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import axios from "axios";
+
+axios.defaults.baseURL = "https://snake-backend.onrender.com/api/top";
 
 
 function App() {
@@ -18,9 +21,24 @@ function App() {
   const [score, setScore] = useState(0);
   const [foodValue, setFoodValue] = useState(1);
   const [lose, setLose] = useState(false);
+  const [tablePlayers, setTablePlayers] = useState(null);
+  const [playerName, setPlayerName] = useState('')
 
   
 
+  useEffect(() => {
+    try {
+      async function getPlayers (){
+        const {data}= await axios.get("/");
+        setTablePlayers(data)
+      }
+      getPlayers()
+    } catch (error) {
+      console.log(error.massege)
+    }
+    
+  }, [lose])
+  
 
 const handleKeyDown = (e) => {
   const index = MOVES.indexOf(e.key);
@@ -118,6 +136,7 @@ function gameRunning(){
     if(snakeCopy.some(item => item[0] === head[0]&& item[1]===head[1])){
       setLose(true)
       setSpeed(10000000)
+      sendPlayerResult(playerName, score)
       console.log('gameover')
     }
 
@@ -154,7 +173,7 @@ function handleSubmit(e){
   const name = form.elements.name.value;
   const boardSize = Number(form.elements.boardSize.value);
   setBoardSize(boardSize)
-  
+  setPlayerName(name)
   console.log(name, boardSize)
   form.reset()
 };
@@ -173,6 +192,17 @@ function startNewGame(){
   setSpeed(600)
   setFoodValue(1)
 };
+
+async function sendPlayerResult (name, score){
+  const totalScore = score
+  try {
+    const result = await axios.post("/", {name, totalScore});
+    console.log(result)
+  } catch (error) {
+    console.log(error)
+  }
+  
+}
 
   return (
         <div>
@@ -210,6 +240,7 @@ function startNewGame(){
             <div className={`arrow right ${snakeDirection === 'ArrowRight'? 'selected': ''}`}/>
             <div className={`pause ${pause === true ? 'selected': ''}`} onClick={handlePause}/>
             <div>Your Score: {score}</div>
+            <div>{tablePlayers && tablePlayers.map(item => <div key={item._id}>{`${item.name}: ${item.totalScore}`}</div>)}</div>
         </div>
   );
 }
