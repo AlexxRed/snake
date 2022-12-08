@@ -23,8 +23,8 @@ code {
 }
 
 .cell {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border: 3px solid #000000;
   margin: 1px;
 }
@@ -35,8 +35,8 @@ code {
 
 .food {
   background-color: #ffff00;
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   background: url('./images/one.png');
   background-repeat: no-repeat;
   background-size: cover;
@@ -44,8 +44,8 @@ code {
 
 .ten{
   background-color: #ff0000;
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   background: url('./images/ten.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -53,8 +53,8 @@ code {
 
 .five{
   background-color: #2a4da5;
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   background: url('./images/five.png');
   background-repeat: no-repeat;
   background-size: cover;
@@ -100,8 +100,8 @@ code {
 }
 
 .arrow {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   background: url('./images/arr.png');
   background-repeat: no-repeat;
   background-size: cover;
@@ -110,13 +110,13 @@ code {
 }
 
 .pause {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   background: url('./images/pause.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
   border: 2px solid black;
-  margin: 0px 70px;
+  margin: 0px 60px;
 }
 
 .selected {
@@ -128,7 +128,7 @@ code {
 }
 
 .up {
-  margin: 0px 70px;
+  margin: 0px 60px;
   transform: rotate(270deg);
 }
 

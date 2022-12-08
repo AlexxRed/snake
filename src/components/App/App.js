@@ -47,15 +47,15 @@ const handleKeyDown = (e) => {
   if(index > -1){
     setSnakeDirection(MOVES[index])
   }
-  if(e.key === ' '){
-    // handlePause()
-  }
+  // if(e.key === ' '){
+  //   // handlePause()
+  // }
 };
 
 
 useEffect(() => {
   document.addEventListener('keydown', handleKeyDown)
-  document.addEventListener('keypress', (e)=> {if(e.key=== ' '){handlePause()}})
+  // document.addEventListener('keypress', (e)=> {if(e.key=== ' '){handlePause()}})
 });
 
 useEffect(() => {
