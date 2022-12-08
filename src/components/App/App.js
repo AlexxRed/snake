@@ -120,7 +120,6 @@ function gameRunning(){
     };
 
 
-
     const snakeHead =  [
       checkAvailableCell(newSnake[newSnake.length - 1][0]+move[0]),
       checkAvailableCell(newSnake[newSnake.length - 1][1]+move[1]),
@@ -191,6 +190,7 @@ function startNewGame(){
   setSpeed(600)
   setFoodValue(1)
   setPause(false)
+  setScore(0)
 };
 
 async function sendPlayerResult (name, score){
