@@ -43,6 +43,7 @@ function App() {
   
 
 const handleKeyDown = (e) => {
+  e.preventDefault()
   const index = MOVES.indexOf(e.key);
   if(index > -1){
     setSnakeDirection(MOVES[index])
