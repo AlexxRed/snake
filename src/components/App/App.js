@@ -70,7 +70,10 @@ useEffect(() => {
   if(score >=250 ){
     setSpeed(100)
   }
-  gameRunning()
+  if(!pause){
+    gameRunning()
+  }
+  
   return () => clearInterval()
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [snake, pause]);
@@ -100,7 +103,6 @@ function generateFood(){
   } while (snake.some(item => item[0] === newFood[0] && item[1] === newFood[1]))
   setFood(newFood);
 };
-
 
 function gameRunning(){
 
@@ -168,10 +170,6 @@ function handleSubmit(e){
 };
 
 function handlePause(){
-  if(pause===true){
-    setSpeed(10000000)
-  }if(pause===false)
-    setSpeed(600)
   setPause(!pause)
 };
 
