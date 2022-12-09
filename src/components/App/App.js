@@ -47,20 +47,15 @@ const handleKeyDown = (e) => {
   if(index > -1){
     setSnakeDirection(MOVES[index])
   }
-  // if(e.key === ' '){
-  //   // handlePause()
-  // }
 };
 
 
 useEffect(() => {
   document.addEventListener('keydown', handleKeyDown)
-  // document.addEventListener('keypress', (e)=> {if(e.key=== ' '){handlePause()}})
 });
 
 useEffect(() => {
   gameRunning()
-  // const interval = gameRunning()
   return () => clearInterval()
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [snake, pause]);
@@ -111,11 +106,7 @@ function gameRunning(){
       case MOVES[3]:
         move = [0,1]
         break;
-      // case MOVES[4]:
-      //   move = [0,0]
-      //   break;
-
-        default:
+      default:
         break;
     };
 
