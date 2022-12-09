@@ -55,6 +55,21 @@ useEffect(() => {
 });
 
 useEffect(() => {
+  if(score >=50 ){
+    setSpeed(500)
+  }
+  if(score >=100 ){
+    setSpeed(400)
+  }
+  if(score >=150 ){
+    setSpeed(300)
+  }
+  if(score >=200 ){
+    setSpeed(200)
+  }
+  if(score >=250 ){
+    setSpeed(100)
+  }
   gameRunning()
   return () => clearInterval()
 // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -132,21 +147,6 @@ function gameRunning(){
     if(snakeHead[0] === food[0] && snakeHead[1] === food[1]){
       spliceIndex = 0
       setScore(score + foodValue);
-      if(score >=50 ){
-        setSpeed(500)
-      }
-      if(score >=100 ){
-        setSpeed(400)
-      }
-      if(score >=150 ){
-        setSpeed(300)
-      }
-      if(score >=200 ){
-        setSpeed(200)
-      }
-      if(score >=250 ){
-        setSpeed(100)
-      }
       generateFood();
     }
 
