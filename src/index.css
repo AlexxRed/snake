@@ -191,6 +191,10 @@ background-color: #188ce8;
   color: #3ec275;
 }
 
+.game-pause{
+  color: #00ffff;
+}
+
 .top-player-item{
   display: flex;
   align-items: center;

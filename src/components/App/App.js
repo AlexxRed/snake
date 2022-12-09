@@ -217,7 +217,8 @@ function handleRight(){
             <button className='button-submit' onClick={startNewGame}>Start new game</button>
           </>
           }
-          {!lose && <h3 className='game-running'>Game is running</h3>}
+          {pause && <h3 className='game-pause'>Pause</h3>}
+          {!lose && !pause && <h3 className='game-running'>Game is running</h3>}
           <h3>Your Score:<span className='score-counter'>{score}</span></h3>
           </div>
             {CELLS.map((row, indexRow) => (
