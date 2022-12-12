@@ -11,7 +11,7 @@ function App() {
 
   const CELLS = Array(boardSize).fill(Array(boardSize).fill(0));
   const FOOD_VALUES = [1, 5, 10];
-  const MOVES = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', ' '];
+  const MOVES = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'];
 
   const [speed, setSpeed] = useState(600);
   const [snakeDirection, setSnakeDirection] = useState(MOVES[0]);
