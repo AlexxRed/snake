@@ -218,7 +218,7 @@ function handleRight(){
             <button className='button-submit' onClick={startNewGame}>Start new game</button>
           </>
           }
-          {pause && <h3 className='game-pause'>Pause</h3>}
+          {pause && !lose && <h3 className='game-pause'>Pause</h3>}
           {!lose && !pause && <h3 className='game-running'>Game is running</h3>}
           <h3>Your Score:<span className='score-counter'>{score}</span></h3>
           </div>
@@ -261,6 +261,7 @@ function handleRight(){
             </form>
             <h3 className='list-players'>Top Players</h3>
               <div className='top-player-container'>
+                {!tablePlayers && <p>loading...</p>}
                 {tablePlayers && tablePlayers.map(
                   item => <div className='top-player-item' key={item._id}>
                     <div className='player-string'>{item.name}</div>
