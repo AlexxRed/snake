@@ -1,4 +1,4 @@
-# Snake
+# Snake-App 
 web-app
 https://snake-app-pro.netlify.app/
 
