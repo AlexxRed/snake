@@ -1,5 +1,5 @@
 # Snake-App 
-web-app live on
+web-app 
 https://snake-app-pro.netlify.app/
 
 # Front-End  https://github.com/AlexxRed/snake
